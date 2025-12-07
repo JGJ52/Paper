@@ -594,7 +594,6 @@
  
              this.send(new ClientboundSetHeldSlotPacket(inventory.getSelectedSlot()));
              this.player.inventoryMenu.broadcastChanges();
-+            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
          }
      }
  
@@ -1122,7 +1121,6 @@
 +                        }
 +                        // CraftBukkit end
                          this.player.stopUsingItem();
-+                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                      }
  
                      return;
@@ -1144,20 +1142,17 @@
 +                        }
 +                        // CraftBukkit end
                          this.player.drop(false);
-+                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                      }
  
                      return;
                  case DROP_ALL_ITEMS:
                      if (!this.player.isSpectator()) {
                          this.player.drop(true);
-+                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                      }
  
                      return;
                  case RELEASE_USE_ITEM:
                      this.player.releaseUsingItem();
-+                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                      return;
                  case START_DESTROY_BLOCK:
                  case ABORT_DESTROY_BLOCK:
@@ -1190,7 +1185,6 @@
 +                        }
 +                    }
 +                    // Paper end - Send block entities after destroy prediction
-+                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                      return;
                  default:
                      throw new IllegalArgumentException("Invalid player action");
@@ -1272,7 +1266,6 @@
 -                            location,
 -                            blockPos
 -                        );
-+                        if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
 +                        // Paper - Remove unused warning
                      }
                  }
@@ -1418,7 +1411,6 @@
  
              this.player.getInventory().setSelectedSlot(packet.getSlot());
              this.player.resetLastActionTime();
-+            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
          } else {
              LOGGER.warn("{} tried to set an invalid carried item", this.player.getPlainTextName());
 +            this.disconnect(Component.literal("Invalid hotbar selection (Hacking?)"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION); // CraftBukkit // Paper - kick event cause
@@ -1925,7 +1917,6 @@
 +                });
 +            }
 +            // Paper end - PlayerUseUnknownEntityEvent
-+            if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
          }
      }
  
@@ -2288,7 +2279,6 @@
                          this.player.containerMenu.broadcastChanges();
                      }
 +                    if (packet.buttonNum() == Inventory.SLOT_OFFHAND && this.player.containerMenu != this.player.inventoryMenu) this.player.containerSynchronizer.sendOffHandSlotChange(); // Paper - update offhand data when the player is clicking in an inventory not their own as the sychronizer does not include offhand slots
-+                    if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
                  }
              }
          }
@@ -2365,7 +2355,6 @@
                  if (flag) {
                      this.player.containerMenu.broadcastChanges();
                  }
-+                if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
              }
          }
      }
@@ -2414,7 +2403,6 @@
                  this.player.inventoryMenu.getSlot(packet.slotNum()).setByPlayer(itemStack);
                  this.player.inventoryMenu.setRemoteSlot(packet.slotNum(), itemStack);
                  this.player.inventoryMenu.broadcastChanges();
-+                if (io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.updateEquipmentOnPlayerActions) this.player.detectEquipmentUpdates(); // Paper - Force update attributes.
              } else if (flag && flag2) {
                  if (this.dropSpamThrottler.isUnderThreshold()) {
                      this.dropSpamThrottler.increment();
